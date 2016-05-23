@@ -1,0 +1,18 @@
+{%  extends "base.html" %}
+
+{% block content %}
+    <h1>Make Reservation</h1>
+    <form action="" method="post" name="make_reservation">
+        <p>
+            Please enter your name:<br />
+            {{ form.guest_name(size=80) }}<br />
+        </p>
+        <p>
+            Please enter your date and time:<br />
+            {{ form.reservation_datetime }}<br />
+        </p>
+        <p>
+            <input type="submit" value="Create Reservation">
+        </p>
+    </form>
+{% endblock %}
