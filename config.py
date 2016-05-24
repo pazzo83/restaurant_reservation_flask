@@ -1,6 +1,7 @@
 import os
 
 WTF_CSRF_ENABLED = False
+SECRET_KEY = 'likethistask'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

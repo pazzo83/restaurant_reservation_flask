@@ -1,5 +1,7 @@
 from app import db
 
+from datetime import datetime
+
 DEFAULT_RESERVATION_LENGTH = 1 # 1 hour
 
 class Guest(db.Model):
@@ -16,11 +18,12 @@ class Table(db.Model):
 
 class Reservation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    guest = db.Column(db.Integer, db.ForeignKey('guest.id'))
-    table = db.Column(db.Integer, db.ForeignKey('table.id'))
+    guest_id = db.Column(db.Integer, db.ForeignKey('guest.id'))
+    guest = db.relationship('Guest')
+    table_id = db.Column(db.Integer, db.ForeignKey('table.id'))
+    table = db.relationship('Table')
     num_guests = db.Column(db.Integer, index=True)
     reservation_time = db.Column(db.DateTime, index=True)
 
 class ReservationManager(object):
-    def create_reservation(self, guest, reservation_datetime):
-        pass
+    pass
