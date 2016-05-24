@@ -1,0 +1,32 @@
+{% block content %}
+    <h1>Reservations</h1>
+    <p>
+        <a href="{{ url_for('admin') }}">Back to Admin</a>
+    </p>
+    <p>
+        <b>Select Date:</b>
+        <form action="" method="POST" name="show_reservations">
+            Date:
+            {{ form.reservation_date }}<br />
+            <input type="submit" value="Change Date">
+        </form>
+    </p>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Guest</th>
+            <th>Start Time</th>
+            <th>Guests</th>
+            <th>Table ID</th>
+        </tr>
+        {% for reservation in reservations %}
+        <tr>
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.guest.name }}</td>
+            <td>{{ reservation.reservation_time }}</td>
+            <td>{{ reservation.num_guests }}</td>
+            <td>{{ reservation.table.id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

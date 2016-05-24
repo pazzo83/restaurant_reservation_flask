@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        <p>Welcome to the reservation system admin page</p>
+        <p>
+            <a href="{{ url_for('show_tables') }}">List of Restaurant Tables</a>
+        </p>
+        <p>
+            <a href="{{ url_for('show_reservations') }}">List of Today's Reservations</a>
+        </p>
+    </div>
+{%  endblock %}
