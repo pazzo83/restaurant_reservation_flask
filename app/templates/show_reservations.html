@@ -13,6 +13,11 @@
             <input type="submit" value="Change Date">
         </form>
     </p>
+    <p>
+        Total reservations: {{ reservations|length }}<br />
+        Total available slots: {{ total_slots }}<br />
+        Utilization: {{ utilization }}%
+    </p>
     <table>
         <tr>
             <th>Id</th>

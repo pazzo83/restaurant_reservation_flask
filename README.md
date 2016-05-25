@@ -42,10 +42,12 @@ Additional Features to add:
 * The ability to delete reservations and tables
 * A multi-restaurant interface (so you'd need a restaurant table to track that)
 * Obviously a better visual design
+* Not yet displaying form validation error messages
 
 Trade-Offs
 * I am using a set difference to determine which tables of a given capacity are free, but this disrupts my way of trying to efficiently seat each guest.  In other words, for a given reservation, I want to associate that reservation with the table with the closest capacity to the number of guests in that party.
 * I am using DateTimes to store the reservation times, so this requires some additional work for dealing with strictly date ranges (as opposed to storing a date and a time separately)
+* I'm only tracking Guests by name right now, so I need to build something a bit more complex - probably a login/profile type set up.
 * Using Flask / SQL Alchemy vs Django - More work required to put the application together, however you have more flexibility with how you want to structure things.  Using SQL Alchemy, you have a lot of freedom with how you want to map Python objects to database tables.
 
 ## Table design
