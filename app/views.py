@@ -20,6 +20,9 @@ def index():
 def make_reservation():
     form = ReservationForm()
     if form.validate_on_submit():
+        if form.reservation_datetime.data < datetime.datetime.now():
+            flash("You cannot book dates in the past")
+            return redirect('/make_reservation')
         reservation_date = datetime.datetime.combine(form.reservation_datetime.data.date(), datetime.datetime.min.time())
         if form.reservation_datetime.data < reservation_date + datetime.timedelta(hours=RESTAURANT_OPEN_TIME) or \
         form.reservation_datetime.data > reservation_date + datetime.timedelta(hours=RESTAURANT_CLOSE_TIME):
@@ -58,8 +61,9 @@ def show_reservations(reservation_date = datetime.datetime.strftime(datetime.dat
     res_date = datetime.datetime.strptime(reservation_date, "%Y-%m-%d")
     reservations = Reservation.query.filter(Reservation.reservation_time >= res_date,
                                             Reservation.reservation_time < res_date + datetime.timedelta(days=1)).all()
-
-    return render_template('show_reservations.html', title="Reservations", reservations=reservations, form=form)
+    total_slots = len(Table.query.all()) * (RESTAURANT_CLOSE_TIME - RESTAURANT_OPEN_TIME)
+    util = (len(reservations) / float(total_slots)) * 100
+    return render_template('show_reservations.html', title="Reservations", reservations=reservations, form=form, total_slots=total_slots, utilization=util)
 
 @app.route('/admin')
 def admin():

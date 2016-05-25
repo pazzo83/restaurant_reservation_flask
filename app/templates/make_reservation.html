@@ -2,6 +2,9 @@
 
 {% block content %}
     <h1>Make Reservation</h1>
+    <p>
+        <a href="{{ url_for('index') }}">Back to Home</a>
+    </p>
     <form action="" method="post" name="make_reservation">
         <p>
             Please enter your name:<br />
@@ -13,7 +16,7 @@
         </p>
         <p>
             Please enter the number of guests:<br />
-            {{ form.num_guests(size=10) }}<br />
+            {{ form.num_guests }}<br />
         </p>
         <p>
             Please enter your date and time:<br />
