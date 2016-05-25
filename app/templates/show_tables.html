@@ -1,3 +1,5 @@
+{%  extends "base.html" %}
+
 {% block content %}
     <h1>Tables</h1>
     <p>
@@ -7,12 +9,23 @@
         <tr>
             <th>Id</th>
             <th>Capacity</th>
+            <th>Today's Utilization</th>
         </tr>
         {% for table in tables %}
         <tr>
             <td>{{ table.id }}</td>
             <td>{{ table.capacity }}</td>
+            <td>{{ table_utilization(table) }}%</td>
         </tr>
         {% endfor %}
     </table>
+
+    <p>
+        <b>Add Table:</b>
+        <form action="" method="POST" name="add_table">
+            Capacity:
+            {{ form.table_capacity }}<br />
+            <input type="submit" value="Add Table">
+        </form>
+    </p>
 {% endblock %}

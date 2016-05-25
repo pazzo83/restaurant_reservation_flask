@@ -1,9 +1,9 @@
 import datetime
 
-from app import app
+from app import app, db
 from flask import render_template, flash, redirect, session, g
 
-from .forms import ReservationForm, ShowReservationsOnDateForm
+from .forms import ReservationForm, ShowReservationsOnDateForm, AddTableForm
 from .controller import create_reservation
 from .models import Table, Reservation
 
@@ -34,10 +34,19 @@ def make_reservation():
             return redirect('/make_reservation')
     return render_template('make_reservation.html', title="Make Reservation", form=form)
 
-@app.route('/show_tables')
+@app.route('/show_tables', methods=['GET', 'POST'])
 def show_tables():
+    form = AddTableForm()
+
+    if form.validate_on_submit():
+        table = Table(capacity=int(form.table_capacity.data))
+        db.session.add(table)
+        db.session.commit()
+        flash("Table created!")
+        return redirect('/show_tables')
+
     tables = Table.query.all()
-    return render_template('show_tables.html', title="Tables", tables=tables)
+    return render_template('show_tables.html', title="Tables", tables=tables, form=form)
 
 @app.route('/show_reservations', methods=['GET', 'POST'])
 @app.route('/show_reservations/<reservation_date>', methods=['GET', 'POST'])
@@ -55,3 +64,13 @@ def show_reservations(reservation_date = datetime.datetime.strftime(datetime.dat
 @app.route('/admin')
 def admin():
     return render_template('admin.html', title="Admin")
+
+@app.context_processor
+def utility_processor():
+    def table_utilization(table):
+        start_datetime = datetime.datetime.combine(datetime.datetime.date(datetime.datetime.now()), datetime.datetime.min.time())
+        end_datetime = start_datetime + datetime.timedelta(days=1)
+        num_reservations = len(Reservation.query.filter(Reservation.table==table, Reservation.reservation_time > start_datetime, Reservation.reservation_time < end_datetime).all())
+        return (num_reservations / float(RESTAURANT_CLOSE_TIME - RESTAURANT_OPEN_TIME)) * 100
+
+    return dict(table_utilization=table_utilization)

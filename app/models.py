@@ -3,6 +3,7 @@ from app import db
 from datetime import datetime
 
 DEFAULT_RESERVATION_LENGTH = 1 # 1 hour
+MAX_TABLE_CAPACITY = 6
 
 class Guest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
